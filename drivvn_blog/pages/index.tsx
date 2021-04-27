@@ -20,7 +20,9 @@ export default function Home({ blogs }) {
         <div className={style.grid}>
         {
           blogs.map((blog: BlogModel) => {
-            return <Card key={blog._id} blog={blog}/>
+            return(
+                <Card key={blog._id} blog={blog}/>
+            )
           })
         }
         </div>
