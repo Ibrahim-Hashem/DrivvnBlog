@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Head from 'next/head'
-import { connectToDatabase } from '../util/mongodb';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { brotliDecompress } from 'node:zlib';
+
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const res = await fetch("http://localhost:3000/api/blogs");
@@ -18,18 +17,20 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async (context)=>{
-    const id = context.params.id;
-    const res = await fetch("http://localhost:3000/api/blogs/"+ parseInt(id))
-    console.log(res);
-
+    const id= context.params.id;
+    const res = await fetch("http://localhost:3000/api/blogs/")
+    const blogs =  await res.json();
+    const blog = blogs.find(blog=>{
+        return blog._id === id 
+    })
     return {
-        props:{},
+        props:{blog},
     }
 } 
 
 
 
-const Blog = () => {
+const Blog = ({blog}) => {
     const router = useRouter();
     const { id } = router.query;
 
@@ -41,6 +42,7 @@ const Blog = () => {
             <div>
                 <h1>{id}</h1>
                 <Link href='/'>Back</Link>
+                <h1>{blog._id}</h1>
             </div>
         </>
     )

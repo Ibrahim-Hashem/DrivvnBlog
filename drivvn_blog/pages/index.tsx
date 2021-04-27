@@ -35,9 +35,7 @@ export default function Home({ blogs }) {
 export const getStaticProps: GetStaticProps = async (context) => {
   const { db } = await connectToDatabase();
   const data = await db.collection("listingsAndReviews").find({}).limit(20).toArray();
-
   const blogs = JSON.parse(JSON.stringify(data));
-
   return {
     props: { blogs: blogs },
   }
