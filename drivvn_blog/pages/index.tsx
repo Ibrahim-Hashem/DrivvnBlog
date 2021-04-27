@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next'
+import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import { connectToDatabase } from '../util/mongodb'
 import Card from '../components/Card'
@@ -32,7 +32,7 @@ export default function Home({ blogs }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const { db } = await connectToDatabase();
   const data = await db.collection("listingsAndReviews").find({}).limit(20).toArray();
 
